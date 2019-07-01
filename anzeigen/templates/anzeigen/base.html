@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Shrikhand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'anzeigen/main.css' %}">
+
+    {% if title %}
+        <title>ShareSquare – {{ title }}</title>
+    {% else %}
+        <title>ShareSquare</title>
+    {% endif %}
+</head>
+<body>
+    <!--Navigation-->
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-light fixed-top shadow-sm p-1 mb-5 bg-white rounded" style="background-color: #fafafa;">
+            <div class="container">
+                <a class="navbar-brand mr-5" id="logo" href="{% url 'anzeigen-home' %}">ShareSquare</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+                    aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                    <div class="navbar-nav mr-auto">
+                        <a class="nav-item nav-link" href="{% url 'anzeigen-home' %}">Aktuelle Anzeigen</a>
+                        <a class="nav-item nav-link" href="{% url 'about' %}">So funktioniert's</a>
+                    </div>
+                    <!-- Navbar Right Side -->
+                    <div class="navbar-nav">
+                        {% if user.is_authenticated %}
+                            <a class="nav-item nav-link" href="{% url 'anzeige-create' %}">Anzeige erstellen</a>
+                            <a class="nav-item nav-link" href="{% url 'profil' %}">Profil</a>
+                            <a class="nav-item nav-link btn btn-outline-dark" href="{% url 'logout' %}">Logout</a>
+                        {% else %}
+                            <a class="nav-item nav-link" href="{% url 'registrierung' %}">Registrieren</a>
+                            <a class="nav-item nav-link btn btn-outline-dark" href="{% url 'login' %}">Login</a>                        
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!--Content-->
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-8">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% block content %}{% endblock %}
+            </div>
+            <div class="col-md-4">
+                <div class="shadow p-3 mb-5 bg-white rounded">
+                    <h3 class="bg-dark rounded p-1 text-center kategorie">Kategorien</h3>
+                    <p class="text-muted text-center">Finde das passende Werkzeug für dein nächstes Projekt.
+                        <ul class="list-group list-group-flush">
+                            <a href="/kategorie/1/" class="btn btn-block kategorie-button">Baustoffe</a>
+                            <a href="/kategorie/2/" class="btn btn-block kategorie-button">Bodenbeläge</a>
+                            <a href="/kategorie/3/" class="btn btn-block kategorie-button">Eisenwaren</a>
+                            <a href="/kategorie/4/" class="btn btn-block kategorie-button">Farben und Tapeten</a>
+                            <a href="/kategorie/5/" class="btn btn-block kategorie-button">Werkzeuge</a>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

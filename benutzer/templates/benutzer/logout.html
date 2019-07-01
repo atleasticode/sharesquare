@@ -1,0 +1,7 @@
+{% extends "anzeigen/base.html" %}
+{% block content %}
+    <h2>Du hast dich erfolgreich abgemeldet.</h2>
+    <div class="border-top pt-3">
+        <small class="text-muted">Noch nicht fertig? <a class="ml-2" href="{% url 'login' %}">Logge dich wieder ein.</a></small>
+    </div>
+{% endblock content %}

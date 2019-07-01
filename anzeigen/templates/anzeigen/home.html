@@ -1,0 +1,36 @@
+{% extends "anzeigen/base.html" %}
+{% block content %}
+    {% for anzeige in anzeigen %}
+        <article class="media content-section border-0 shadow-sm p-3 mb-4 bg-white rounded">
+            <img class="rounded-circle article-img" src="{{ anzeige.autor.profil.profil_bild.url }}" alt="">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2 link" href="{% url 'benutzer-anzeigen' anzeige.autor.username %}">{{ anzeige.autor }}</a>
+                    <small class="text-muted">{{ anzeige.erstellungsdatum }}</small>
+                    <span class="badge badge-pill badge-dark">{{ anzeige.kategorie }}</span>
+                </div>
+                <h2><a class="article-title" href="{% url 'anzeige-detail' anzeige.id %}">{{ anzeige.titel }}</a></h2>
+                <p class="article-content">{{ anzeige.inhalt }}</p>
+            </div>
+        </article>
+    {% endfor %}
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-dark mb-4" href="?page=1">Erste Seite</a>
+            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.previous_page_number }}">Zurück</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <a class="btn btn-dark mb-4" href="?page={{ num }}">{{ num }}</a>  
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a class="btn btn-outline-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.next_page_number }}">Vorwärts</a>
+        {% endif %}
+    
+    {% endif %}
+{% endblock content %}
